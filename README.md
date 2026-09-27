@@ -117,36 +117,123 @@ Comic Craft Giri/
 
 ---
 
-## Quick Run Instructions
+---
 
-### 1. Launch with VS Code (1-Click)
-1. Open the project in VS Code:
-   ```bash
-   code "e:\Comic Craft Giri"
-   ```
-2. Press **`F5`** (or go to **Run and Debug** -> select **"Python: Run ComicCraft Server"**).
+## 🚀 How to Run Locally (From GitHub)
 
-### 2. Launch from Terminal
-```powershell
-uvicorn app.main:app --reload --host 127.0.0.1 --port 8000
-```
+Follow these simple step-by-step instructions to get Comic Craft Giri running on your local machine.
 
-### 3. Open in Browser
-- **Studio Interface**: [http://127.0.0.1:8000](http://127.0.0.1:8000)
-- **Interactive Swagger Docs**: [http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs)
-- **System Health Status**: [http://127.0.0.1:8000/health](http://127.0.0.1:8000/health)
+### 1. Prerequisites
+Ensure you have the following installed on your computer:
+- **Python 3.10 or newer** (Check with `python --version` or download from [python.org](https://www.python.org/downloads/))
+- **Git** ([git-scm.com](https://git-scm.com/))
+- **A Free Google Gemini API Key**: Get a free API key in seconds from [Google AI Studio](https://aistudio.google.com/)
 
 ---
 
-## Running Automated Tests
+### 2. Step-by-Step Installation
 
-Run the full automated test suite:
-```powershell
+#### Step 1: Clone the Repository
+Open your terminal (PowerShell, Command Prompt, or Terminal on macOS/Linux) and run:
+```bash
+git clone https://github.com/your-username/comic-craft-giri.git
+cd comic-craft-giri
+```
+
+#### Step 2: Create a Virtual Environment
+It is recommended to use an isolated Python virtual environment:
+- **Windows (PowerShell or CMD)**:
+  ```powershell
+  python -m venv venv
+  ```
+- **macOS / Linux**:
+  ```bash
+  python3 -m venv venv
+  ```
+
+#### Step 3: Activate the Virtual Environment
+- **Windows (PowerShell)**:
+  ```powershell
+  .\venv\Scripts\Activate.ps1
+  ```
+  *(If you get a script execution policy warning in PowerShell, run `Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass` and then run the activate command again).*
+- **Windows (Command Prompt)**:
+  ```cmd
+  venv\Scripts\activate.bat
+  ```
+- **macOS / Linux**:
+  ```bash
+  source venv/bin/activate
+  ```
+
+#### Step 4: Install Dependencies
+```bash
+pip install --upgrade pip
+pip install -r requirements.txt
+```
+
+#### Step 5: Configure Your API Key
+1. Copy the example environment file:
+   - **Windows (PowerShell / CMD)**:
+     ```powershell
+     copy .env.example .env
+     ```
+   - **macOS / Linux**:
+     ```bash
+     cp .env.example .env
+     ```
+2. Open `.env` in any text editor and paste your Gemini API key:
+   ```env
+   GEMINI_API_KEY=AIzaSy...your_actual_key_here
+   GEMINI_FLASH_MODEL=gemini-flash-lite-latest
+   GEMINI_PRO_MODEL=gemini-3.8-flash
+   ```
+
+---
+
+### 3. Running the Application
+
+#### Option A: One-Click Launch in VS Code
+1. Open the project folder in VS Code:
+   ```bash
+   code .
+   ```
+2. Press **`F5`** (or click **Run and Debug** -> **"Python: Run ComicCraft Server"**).
+
+#### Option B: Launch from Terminal
+With your virtual environment active, run:
+```bash
+uvicorn app.main:app --reload --host 127.0.0.1 --port 8000
+```
+
+---
+
+### 4. Open in Your Browser
+Once the server starts, open your browser and navigate to:
+- 🌐 **Comic Studio Interface**: [http://127.0.0.1:8000](http://127.0.0.1:8000)
+- 📖 **Interactive Swagger API Docs**: [http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs)
+- 🩺 **System Health Check**: [http://127.0.0.1:8000/health](http://127.0.0.1:8000/health)
+
+---
+
+### 5. Running Automated Tests
+
+To verify that all services, routes, Gemini single-call integration, and image generators are functioning properly:
+```bash
 pytest -v
 ```
-All **11 core automated tests** verify:
-- Gemini Flash 5-panel outline structure and prompt customization
-- Gemini Pro story narration, captions, and character speech dialogues
-- Multi-tier image generation and filesystem saving
-- Comic layout binding and multi-page PDF compilation
-- FastAPI routes (`/`, `/health`, `/generate`, `/generate-comic/json`, `/test-image`, `/export-success`)
+All 11 unit and route test suites will execute and validate the system.
+
+---
+
+### 🛠️ Common Troubleshooting & Tips
+
+- **PowerShell Script Error (`cannot be loaded because running scripts is disabled`)**:
+  Run this one-time command in your PowerShell:
+  ```powershell
+  Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
+  ```
+- **Gemini Quota Management**:
+  Comic Craft Giri consolidates storyboard generation, narrative narration, character dialogue, and image prompts into **1 single Gemini API call** per comic, staying well within free-tier limits without burning credits.
+- **Image Generation**:
+  All 5 panels generate distinct illustrations automatically using distributed Stable Diffusion. No stock photography or placeholder images are used.
